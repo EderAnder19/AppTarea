@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
+//comentario de mark
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
