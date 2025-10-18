@@ -23,16 +23,16 @@ class WelcomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WelcomeScreen(onStartClick = {
-                startActivity(Intent(this, MainActivity::class.java))
+            btnComenzar.setOnClickListener {
+                val intent = Intent(this, TermsActivity::class.java)
+                startActivity(intent)
                 finish()
-            })
+            }
         }
     }
 }
 @Composable
 fun WelcomeScreen(onStartClick: () -> Unit) {
-    // Fondo degradado
     val gradientColors = listOf(
         Color(0xFFC2E9FB),
         Color(0xFFA1C4FD)
@@ -81,7 +81,7 @@ fun WelcomeScreen(onStartClick: () -> Unit) {
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C63FF)),
                 modifier = Modifier
-                    .width(200.dp)
+                     .width(200.dp)
                     .height(50.dp)
             ) {
                 Text(
