@@ -19,18 +19,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-class LoginActivity : ComponentActivity() {
+class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LoginScreen(
-                onLoginClick = {
-                    // Aquí puedes verificar credenciales o ir a la pantalla principal
+            RegisterScreen(
+                onRegisterClick = {
+                    // Aquí podrías guardar los datos o validarlos
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 },
-                onRegisterClick = {
-                    startActivity(Intent(this, RegisterActivity::class.java))
+                onLoginClick = {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
                 }
             )
         }
@@ -38,9 +39,11 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
+fun RegisterScreen(onRegisterClick: () -> Unit, onLoginClick: () -> Unit) {
+    var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -50,13 +53,24 @@ fun LoginScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Iniciar Sesión",
+            text = "Crear Cuenta",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF3A2B8A)
         )
 
         Spacer(modifier = Modifier.height(30.dp))
+
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Nombre completo") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
@@ -78,26 +92,37 @@ fun LoginScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth()
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = { Text("Confirmar contraseña") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = onLoginClick,
+            onClick = onRegisterClick,
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C63FF)),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
         ) {
-            Text(text = "Iniciar sesión", color = Color.White, fontSize = 18.sp)
+            Text(text = "Registrarse", color = Color.White, fontSize = 18.sp)
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "¿No tienes cuenta? Crea una",
+            text = "¿Ya tienes cuenta? Inicia sesión",
             fontSize = 16.sp,
             color = Color(0xFF3A2B8A),
             textAlign = TextAlign.Center,
-            modifier = Modifier.clickable { onRegisterClick() }
+            modifier = Modifier.clickable { onLoginClick() }
         )
     }
 }
