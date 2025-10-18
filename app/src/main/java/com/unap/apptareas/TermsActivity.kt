@@ -21,7 +21,10 @@ class TermsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TermsScreen(onAccept = { finish() })
+            TermsScreen(onAccept = {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            })
         }
     }
 }
